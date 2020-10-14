@@ -33,12 +33,9 @@ const Todos = () => {
 
   useEffect(() => {
     if (viewableItems && viewableItems.length > 0) {
-      const thirdTodo = todos[2];
       const isThirdItemVisible =
-        viewableItems.findIndex(
-          ({item}) => thirdTodo && thirdTodo.id === item.id,
-        ) !== -1;
-      if (isThirdItemVisible && thirdTodo) {
+        viewableItems.findIndex(({index}) => index == 2) !== -1;
+      if (isThirdItemVisible) {
         listRef.current.scrollToIndex({animated: true, index: 2});
       }
     }
@@ -54,6 +51,7 @@ const Todos = () => {
   );
 
   const onViewRef = React.useRef(({viewableItems}) => {
+    console.log('>>>', viewableItems);
     setViewableItems(viewableItems);
   });
   const viewConfigRef = React.useRef({
@@ -62,8 +60,9 @@ const Todos = () => {
     waitForInteraction: false,
   });
 
-
-  if (loading) return <PlaceholderListing />;
+  if (loading) {
+    return <PlaceholderListing />;
+  }
   return (
     <FlatList
       ref={listRef}
